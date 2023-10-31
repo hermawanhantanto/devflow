@@ -14,16 +14,23 @@ interface ThemeContextProps {
 
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
-const ThemeProvider = ({ children }: PropsWithChildren) => {
+export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [mode, setMode] = useState("");
 
   const handleChangeTheme = () => {
-    if (mode === "dark") {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      setMode("dark");
+
+      document.documentElement.classList.add("dark");
+      console.log(mode);
+    } else {
       setMode("light");
       document.documentElement.classList.remove("dark");
-    } else {
-      setMode("dark");
-      document.documentElement.classList.add("dark");
+      console.log(mode);
     }
   };
 
@@ -42,7 +49,7 @@ export const useTheme = () => {
   const context = useContext(ThemeContext);
 
   if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw Error("useTheme must be used within a ThemeProvider");
   }
 
   return context;
