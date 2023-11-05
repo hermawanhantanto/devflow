@@ -5,15 +5,14 @@ import Metric from "../shared/Metric";
 import Link from "next/link";
 
 interface Props {
-  id: number;
+  id: string;
   title: string;
   tags: {
     name: string;
-    route: string;
   }[];
   author: {
-    id: number;
-    profilImg: string;
+    clerkId: string;
+    picture: string;
     name: string;
   };
   date: Date;
@@ -50,7 +49,7 @@ const QuestionCard = ({
           <Metric
             title={formatDate(date)}
             value={author.name}
-            href={`/profile/${author.id}`}
+            href={`/profile/${author.clerkId}`}
             imgUrl="assets/icons/avatar.svg"
             isAuthor
             alt="author"
