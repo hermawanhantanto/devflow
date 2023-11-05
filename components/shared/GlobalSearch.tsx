@@ -18,7 +18,6 @@ const GlobalSearch = () => {
           className="no-focus paragraph-regular placeholder background-light800_darkgradient border-none outline-none"
           type="text"
           placeholder="Search globally"
-          value=""
         />
       </div>
     </div>

@@ -5,7 +5,7 @@ interface Props {
   tag: {
     name: string;
     route: string;
-    count: number;
+    count?: number;
   };
   viewCount?: boolean;
 }
