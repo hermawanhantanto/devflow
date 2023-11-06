@@ -1,6 +1,6 @@
 "use server";
 import User from "@/database/user.model";
-import { connectToDB } from "../mongodb.config";
+import { connectToDB } from "../mongoose";
 import {
   CreateUserParams,
   DeleteUserParams,
