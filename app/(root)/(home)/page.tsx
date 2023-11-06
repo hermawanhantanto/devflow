@@ -9,7 +9,7 @@ import NoResult from "@/components/shared/NoResult";
 import { getQuestions } from "@/lib/action/question.action";
 
 export default async function Home() {
-  const { questions } = await getQuestions({});
+  const result = await getQuestions({});
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -35,9 +35,9 @@ export default async function Home() {
         />
       </div>
       <HomePage />
-      {questions.length >= 1 ? (
+      {result.questions.length >= 1 ? (
         <div className="mt-12 flex w-full flex-1 flex-col gap-12">
-          {questions.map((question) => (
+          {result.questions.map((question) => (
             <QuestionCard
               key={question._id}
               id={question._id}
