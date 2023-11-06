@@ -64,7 +64,7 @@ export async function POST(req: Request) {
       username: evt.data.username!,
     });
 
-    return NextResponse.json(mongooUser, { status: 201 });
+    return NextResponse.json({ message: "OK", user: mongooUser });
   }
 
   if (eventType === "user.updated") {
@@ -81,7 +81,7 @@ export async function POST(req: Request) {
       path: `/profile/${evt.data.id}`,
     });
 
-    return NextResponse.json(updatedUser, { status: 200 });
+    return NextResponse.json({ message: "OK", user: updatedUser });
   }
 
   if (eventType === "user.deleted") {
@@ -89,7 +89,7 @@ export async function POST(req: Request) {
       clerkId: evt.data.id!,
     });
 
-    return NextResponse.json(deletedUser, { status: 200 });
+    return NextResponse.json({ message: "OK", user: deletedUser });
   }
 
   return new Response("", { status: 201 });
