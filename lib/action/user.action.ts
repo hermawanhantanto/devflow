@@ -26,17 +26,11 @@ export async function getUserById(params: any) {
 export async function createUser(params: CreateUserParams) {
   try {
     connectToDB();
-    const { clerkId, email, name, picture, username } = params;
-    const newUser = await User.create({
-      clerkId,
-      email,
-      name,
-      picture,
-      username,
-    });
+    const newUser = await User.create(params);
     return newUser;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
 
@@ -52,6 +46,7 @@ export async function updateUser(userData: UpdateUserParams) {
     revalidatePath(path);
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
 
@@ -73,5 +68,6 @@ export async function deleteUser(params: DeleteUserParams) {
     return deletedUser;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
