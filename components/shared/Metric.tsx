@@ -1,49 +1,59 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react'
 
-interface Props {
-  title: string;
+interface MetricProps {
   imgUrl: string;
-  value: string | number;
   alt: string;
-  isAuthor?: boolean;
+  value: string | number;
+  title: string;
   href?: string;
+  textStyles?: string;
+  isAuthor?: boolean;
 }
 
-const Metric = ({ title, imgUrl, value, alt, isAuthor, href }: Props) => {
-  if (href) {
-    <Link className="flex-center gap-4" href={href}>
-      <Image
+const Metric = ({
+  imgUrl,
+  alt,
+  value,
+  title,
+  href,
+  textStyles,
+  isAuthor,
+}: MetricProps) => {
+  const metricContent = (
+    <>
+      <Image 
         src={imgUrl}
-        height={16}
         width={16}
-        className="rounded"
+        height={16}
         alt={alt}
+        className={`object-contain ${href ? 'rounded-full' : ''}`}
       />
-      <div className="flex-center gap-2">
-        <p className="body-medium">{value}</p>
-        <p className={`small-medium ${isAuthor ? "max-sm:hidden" : ""}`}>
+
+      <p className={`${textStyles} flex items-center gap-1`}>
+        {value}
+
+        <span className={`small-regular line-clamp-1 ${isAuthor ?'max-sm:hidden' : ''}`}>
           {title}
-        </p>
-      </div>
-    </Link>;
+        </span>
+      </p>
+    </>
+  )
+
+  if(href) {
+    return (
+      <Link href={href} className="flex-center  gap-1">
+        {metricContent}
+      </Link>
+    )
   }
 
   return (
-    <div className="flex items-center gap-1">
-      <Image
-        src={imgUrl}
-        height={16}
-        width={16}
-        className="invert-colors"
-        alt={alt}
-      />
-      <p className="small-medium">
-        {value} {title}
-      </p>
+    <div className="flex-center flex-wrap gap-1">
+      {metricContent}
     </div>
-  );
-};
+  )
+}
 
-export default Metric;
+export default Metric

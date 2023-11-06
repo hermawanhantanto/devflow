@@ -1,82 +1,94 @@
-import React from "react";
-import Tags from "../shared/Tags";
-import { formatDate, formatNumber } from "@/lib/utils";
-import Metric from "../shared/Metric";
 import Link from "next/link";
+import React from "react";
+import RenderTag from "../shared/RenderTag";
+import Metric from "../shared/Metric";
+import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 
-interface Props {
-  id: string;
+interface QuestionProps {
+  _id: string;
   title: string;
   tags: {
+    _id: string;
     name: string;
   }[];
   author: {
-    clerkId: string;
-    picture: string;
+    _id: string;
     name: string;
+    picture: string;
   };
-  date: Date;
-  likes: number;
-  answers: Object[];
+  upvotes: number;
   views: number;
+  answers: Array<object>;
+  createdAt: Date;
 }
 
 const QuestionCard = ({
-  id,
+  _id,
   title,
   tags,
   author,
-  date,
-  likes,
-  answers,
+  upvotes,
   views,
-}: Props) => {
+  answers,
+  createdAt,
+}: QuestionProps) => {
   return (
-    <section className="card-wrapper text-dark200_light900 w-full rounded-lg p-9 max-sm:p-5 sm:px-12">
-      <div className=" flex flex-col gap-4">
-        <p className="small-medium sm:hidden">- asked {formatDate(date)}</p>
-        <Link href={`/question/${id}`}>
-          <h2 className="h2-bold sm:h3-bold sm:base-bold line-clamp-1">
-            {title}
-          </h2>
-        </Link>
-        <div className="flex gap-4 max-sm:flex-col sm:items-center">
-          {tags.map((tag) => {
-            return <Tags key={tag.name} tag={tag} />;
-          })}
+    <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
+      <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
+        <div>
+          <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
+            {getTimestamp(createdAt)}
+          </span>
+          <Link href={`/question/${_id}`}>
+            <h3 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1">
+              {title}
+            </h3>
+          </Link>
         </div>
-        <div className="flex w-full flex-wrap justify-between max-md:flex-col max-md:gap-4">
-          <Metric
-            title={formatDate(date)}
-            value={author.name}
-            href={`/profile/${author.clerkId}`}
-            imgUrl="assets/icons/avatar.svg"
-            isAuthor
-            alt="author"
-          />
-          <div className="flex flex-wrap items-center gap-2 ">
-            <Metric
-              title="likes"
-              value={formatNumber(likes)}
-              imgUrl="assets/icons/like.svg"
-              alt="likes"
-            />
-            <Metric
-              title="answers"
-              value={formatNumber(answers.length)}
-              imgUrl="assets/icons/message.svg"
-              alt="answers"
-            />
-            <Metric
-              title="views"
-              value={formatNumber(views)}
-              imgUrl="assets/icons/eye.svg"
-              alt="views"
-            />
-          </div>
-        </div>
+
+        {/* If signed in add edit delete actions */}
       </div>
-    </section>
+
+      <div className="mt-3.5 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
+        ))}
+      </div>
+
+      <div className="flex-between mt-6 w-full flex-wrap gap-3">
+        <Metric
+          imgUrl={"/assets/icons/avatar.svg"}
+          alt="user"
+          value={author.name}
+          title={` - asked ${getTimestamp(createdAt)}`}
+          href={`/profile/${author._id}`}
+          isAuthor
+          textStyles="body-medium text-dark400_light700"
+        />
+
+        <Metric
+          imgUrl="/assets/icons/like.svg"
+          alt="Upvotes"
+          value={formatAndDivideNumber(upvotes)}
+          title=" Votes"
+          textStyles="small-medium text-dark400_light800"
+        />
+        <Metric
+          imgUrl="/assets/icons/message.svg"
+          alt="message"
+          value={formatAndDivideNumber(answers.length)}
+          title=" Answers"
+          textStyles="small-medium text-dark400_light800"
+        />
+        <Metric
+          imgUrl="/assets/icons/eye.svg"
+          alt="eye"
+          value={formatAndDivideNumber(views)}
+          title=" Views"
+          textStyles="small-medium text-dark400_light800"
+        />
+      </div>
+    </div>
   );
 };
 

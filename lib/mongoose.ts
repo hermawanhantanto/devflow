@@ -1,26 +1,27 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 let isConnected: boolean = false;
 
-export async function connectToDB() {
-  mongoose.set("strictQuery", true);
+export const connectToDatabase = async () => {
+  mongoose.set('strictQuery', true);
 
-  if (!process.env.MONGODB_URL) {
-    return console.log("=> no mongodb url provided");
+  if(!process.env.MONGODB_URL) {
+    return console.log('MISSING MONGODB_URL');
   }
 
   if (isConnected) {
-    return console.log("=> using existing database connection");
+    return console.log('MongoDB is already connected');
   }
 
   try {
-    mongoose.connect(process.env.MONGODB_URL, {
-      dbName: "devflow",
-    });
+    await mongoose.connect(process.env.MONGODB_URL, {
+      dbName: 'devflow'
+    })
 
     isConnected = true;
-    console.log("=> using new database connection");
+
+    console.log('MongoDB is connected');
   } catch (error) {
-    console.log("=> error connecting to database: ", error);
+    console.log('MongoDB connection failed', error)
   }
 }
