@@ -1,44 +1,51 @@
-"use client"
-
+"use client";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
+import { SelectGroup } from "@radix-ui/react-select";
 
 interface Props {
-  filters: {
-    name: string,
-    value: string,
+  filter: {
+    name: string;
+    value: string;
   }[];
-  otherClasses?: string;
-  containerClasses?: string;
+  otherClass?: string;
+  containerClass?: string;
 }
 
-const Filter = ({ filters, otherClasses, containerClasses }: Props) => {
+const Filter = ({ filter, otherClass, containerClass }: Props) => {
   return (
-    <div className={`relative ${containerClasses}`}>
+    <div className={`relative ${containerClass}`}>
       <Select>
-        <SelectTrigger className={`${otherClasses} body-regular light-border background-light800_dark300 text-dark500_light700 border px-5 py-2.5`}>
-        <div className="line-clamp-1 flex-1 text-left">
-          <SelectValue placeholder="Select a Filter" />
-        </div>
+        <SelectTrigger
+          className={`${otherClass} body-regular light-border background-light800_dark300 text-dark500_light700 border px-5 py-2.5 `}
+        >
+          <div className="line-clamp-1 flex-1 text-left">
+            <SelectValue placeholder="Select a Filter" />
+          </div>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="background-light800_dark300 text-dark500_light700">
           <SelectGroup>
-            {filters.map((item) => (
-              <SelectItem key={item.value} value={item.value}>
-                {item.name}
-              </SelectItem>
-            ))}
+            {filter?.map((item) => {
+              return (
+                <SelectItem
+                  key={item.name}
+                  value={item.value}
+                  className="w-full focus:bg-light-800 dark:focus:bg-dark-400"
+                >
+                  {item.name}
+                </SelectItem>
+              );
+            })}
           </SelectGroup>
         </SelectContent>
       </Select>
     </div>
-  )
-}
+  );
+};
 
-export default Filter
+export default Filter;

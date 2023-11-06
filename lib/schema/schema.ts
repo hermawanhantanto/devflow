@@ -1,6 +1,5 @@
 import { Schema } from "mongoose";
-
-import { IUser } from "@/mongodb";
+import { IUser } from "@/database/user.model";
 
 export interface CreateAnswerParams {
   content: string;
@@ -30,7 +29,7 @@ export interface DeleteAnswerParams {
 }
 
 export interface SearchParams {
-  query: string;
+  query?: string | null;
   type?: string | null;
 }
 
@@ -87,7 +86,6 @@ export interface EditQuestionParams {
   questionId: string;
   title: string;
   content: string;
-  tags: string[];
   path: string;
 }
 
